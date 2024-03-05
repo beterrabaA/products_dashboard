@@ -21,6 +21,10 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
     setData([...data, { color: "", price: "" }]);
   };
 
+  const handleDeleteVariant = (i) => {
+    setData(data.filter((_, index) => index !== i));
+  };
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
