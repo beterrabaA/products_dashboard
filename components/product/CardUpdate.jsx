@@ -17,6 +17,10 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
     closeModal();
   };
 
+  const handleAddVariant = () => {
+    setData([...data, { color: "", price: "" }]);
+  };
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
