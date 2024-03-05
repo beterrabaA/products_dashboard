@@ -25,6 +25,11 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
     setData(data.filter((_, index) => index !== i));
   };
 
+  const handleVariant = (e, i) => {
+    const { name, value } = e.target;
+    const newData = data;
+    newData[i][name] = value;
+  };
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
