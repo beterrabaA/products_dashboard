@@ -13,12 +13,12 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
   const [data, setData] = useState(product.data);
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log("update");
+    console.log({ name, model, brand, data });
     closeModal();
   };
 
   const handleAddVariant = () => {
-    setData([...data, { color: "", price: "" }]);
+    setData([...data, { price: "", color: "" }]);
   };
 
   const handleDeleteVariant = (i) => {
@@ -29,6 +29,7 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
     const { name, value } = e.target;
     const newData = data;
     newData[i][name] = value;
+    setData([...newData]);
   };
   return (
     <>
@@ -56,7 +57,7 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <div className="bg-white shadow-lg p-5 rounded-lg border-t-4 border-green-400">
+                <div className="bg-white shadow-lg p-5 rounded-lg border-t-4 border-green-400 w-full md:w-2/3 lg:w-auto">
                   <h1 className="text-start text-xl font-bold my-4">Update</h1>
                   <form
                     action=""
@@ -78,7 +79,7 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
                         placeholder="Product Name"
                       />
                     </label>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2">
                       <label
                         htmlFor=""
                         className="flex flex-col items-start pr-1"
@@ -110,7 +111,10 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
                     <div>
                       <h3 className="font-bold text-lg">Variants</h3>
                       {data.map((item, i) => (
-                        <div key={i} className="grid grid-cols-2 w-max-[400px]">
+                        <div
+                          key={i}
+                          className="grid grid-cols-1 md:grid-cols-2 w-max-[400px] border rounded-md mb-1"
+                        >
                           <label
                             htmlFor=""
                             className="flex flex-col items-start pr-1"
@@ -118,9 +122,9 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
                             Color:
                             <input
                               type="text"
-                              name="price"
+                              name="color"
                               className="bg-zinc-200 w-full px-2 py-1 rounded-md"
-                              onChange={(e) => setModel(e.target.value)}
+                              onChange={(e) => handleVariant(e, i)}
                               value={item.color}
                               required
                               placeholder="Color"
@@ -128,15 +132,15 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
                           </label>
                           <label
                             htmlFor=""
-                            className="flex flex-col items-start"
+                            className="flex flex-col items-start pr-1"
                           >
                             Price:
-                            <div className="flex flex-auto">
+                            <div className="flex flex-col md:flex-row w-full md:w-fit items-center">
                               <input
                                 type="number"
                                 name="price"
-                                className="bg-zinc-200 w-fit px-2 py-1 rounded-md mr-1"
-                                onChange={(e) => setBrand(e.target.value)}
+                                className="bg-zinc-200 w-full md:w-fit px-2 py-1 rounded-md"
+                                onChange={(e) => handleVariant(e, i)}
                                 value={item.price}
                                 required
                                 placeholder="Price"
@@ -145,7 +149,10 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
                                 type="button"
                                 onClick={() => handleDeleteVariant(i)}
                               >
-                                <BadgeMinus size={24} />
+                                <BadgeMinus
+                                  className="my-3 md:my-0"
+                                  size={24}
+                                />
                               </button>
                             </div>
                           </label>
