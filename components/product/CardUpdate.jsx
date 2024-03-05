@@ -4,7 +4,6 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
 import { BadgeMinus } from "lucide-react";
-import Link from "next/link";
 
 export const CardUpdate = ({ isOpen, closeModal, product }) => {
   const [name, setName] = useState(product.name);
