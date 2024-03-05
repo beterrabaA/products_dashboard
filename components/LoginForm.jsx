@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -14,22 +14,23 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ email, password });
 
     try {
-      const response = await signIn("credentials", {
+      const res = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
 
-      if (response.error) {
-        setError("Invalid credentials");
+      if (res.error) {
+        setError("Invalid Credentials");
         return;
       }
 
-      router.replace("dashboad");
-    } catch (error) {}
+      router.replace("dashboard");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="grid place-items-center h-screen">
@@ -56,14 +57,13 @@ export const LoginForm = () => {
 
           <button
             className="bg-green-600 cursor-pointer text-white font-bold px-6 py-2"
-            disabled
             type="submit"
           >
             Login
           </button>
           {error && (
             <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-              {erro}
+              {error}
             </div>
           )}
           <Link className="text-sm mt-3 text-right" href={"/register"}>
