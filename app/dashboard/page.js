@@ -1,7 +1,15 @@
+"use client";
+
+import { ListProducts } from "@/components/ListProducts";
+import { useSession } from "next-auth/react";
+
 const { Dashboard } = require("@/components/Dashboard");
 
-const DashboardPage = () => {
-  return <Dashboard />;
-};
+export default function DashboardPage() {
+  const { data: session } = useSession();
+  const token = session?.token || "";
 
-export default DashboardPage;
+  // console.log(token?.token);
+  // const getData = await;
+  return <ListProducts token={token?.token} />;
+}
