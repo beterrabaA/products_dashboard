@@ -11,6 +11,11 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
   const [model, setModel] = useState(product.model);
   const [brand, setBrand] = useState(product.brand);
   const [data, setData] = useState(product.data);
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    console.log("update");
+    closeModal();
+  };
 
   return (
     <>
