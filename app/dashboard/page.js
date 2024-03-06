@@ -1,15 +1,17 @@
-"use client";
-
 import { ListProducts } from "@/components/ListProducts";
-import { useSession } from "next-auth/react";
+import { cookies } from "next/headers";
 
-const { Dashboard } = require("@/components/Dashboard");
+export default async function DashboardPage({ searchParams }) {
+  const cookiesStore = cookies();
+  const { value } = cookiesStore.get("token");
 
-export default function DashboardPage() {
-  const { data: session } = useSession();
-  const token = session?.token || "";
-
-  // console.log(token?.token);
-  // const getData = await;
-  return <ListProducts token={token?.token} />;
+  const products = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product`, {
+    method: "GET",
+    headers: {
+      Authorization: value,
+    },
+    cache: "no-store",
+  }).catch((err) => console.log(err));
+  const data = (await products?.json()) || [];
+  return <ListProducts data={data} search={searchParams.query} />;
 }
