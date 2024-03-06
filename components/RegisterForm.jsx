@@ -34,6 +34,7 @@ export const RegisterForm = () => {
           <input
             type="text"
             name="name-input"
+            className="input-login"
             onChange={(e) => setName(e.target.value)}
             value={name}
             required
@@ -42,6 +43,7 @@ export const RegisterForm = () => {
           <input
             type="email"
             name="email-input"
+            className="input-login"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -50,6 +52,7 @@ export const RegisterForm = () => {
           <input
             type="password"
             name="pass-input"
+            className="input-login"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
