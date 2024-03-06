@@ -1,6 +1,31 @@
 "use client";
 
+import { revalidate } from "@/actions";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { CardUpdate } from "./product/CardUpdate";
+
 export const ProductMinCard = ({ product }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { data: session } = useSession();
+  const token = session?.token || "";
+
+  const handleDelete = async (id) => {
+    fetch(process.env.NEXT_PUBLIC_API_URL + `/product/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token.token,
+      },
+    })
+      .then(() => {
+        revalidate();
+        toast.success("Product deleted successfully!");
+      })
+      .catch((err) => toast.error("Failed to delete product!"));
+  };
   return (
     <div className="bg-white p-4 rounded-lg shadow">
       <div className="flex items-center space-x-2 text-sm py-1">
@@ -28,17 +53,24 @@ export const ProductMinCard = ({ product }) => {
       <div className="flex w-full items-center justify-center">
         <button
           className="bg-blue-500 text-white font-bold px-6 py-1 text-sm rounded-sm"
+          onClick={() => setIsOpen(true)}
           type="button"
         >
           Edit
         </button>
         <button
           className="bg-red-500 text-white font-bold px-6 py-1 text-sm rounded-sm"
+          onClick={handleDelete}
           type="button"
         >
           Delete
         </button>
       </div>
+      <CardUpdate
+        isOpen={isOpen}
+        closeModal={() => setIsOpen(false)}
+        product={product}
+      />
     </div>
   );
 };
