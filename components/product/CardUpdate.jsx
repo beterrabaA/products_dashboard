@@ -1,12 +1,12 @@
 "use client";
 
 import { Fragment, useState } from "react";
-
-import toast from "react-hot-toast";
 import { Dialog, Transition } from "@headlessui/react";
+import { useSession } from "next-auth/react";
 
 import { BadgeMinus } from "lucide-react";
-import { revalidate, updateProduct } from "@/actions";
+import { revalidate } from "@/actions";
+import toast from "react-hot-toast";
 
 export const CardUpdate = ({ isOpen, closeModal, product }) => {
   const [name, setName] = useState(product.name);
@@ -14,14 +14,28 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
   const [brand, setBrand] = useState(product.brand);
   const [data, setData] = useState(product.data);
 
-  const handleUpdate = async () => {
-    updateProduct(product.id, { name, model, brand, data })
+  const { data: session } = useSession();
+  const token = session?.token || "";
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const object = { name, model, brand, data };
+
+    fetch(process.env.NEXT_PUBLIC_API_URL + `/product/${product.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token.token,
+      },
+      body: JSON.stringify(object),
+    })
       .then(() => {
-        toast.success("Product updated successfully!");
         revalidate();
+        toast.success("Product updated successfully!");
         closeModal();
       })
-      .catch((error) => toast.error("Faild to update product"));
+      .catch((error) => toast.error("An error occurred!"));
   };
 
   const handleAddVariant = () => {

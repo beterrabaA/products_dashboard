@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 
 import { BadgeMinus } from "lucide-react";
 import { revalidate } from "@/actions";
+import toast from "react-hot-toast";
 
 export const CardCreate = ({ isOpen, closeModal }) => {
   const [name, setName] = useState("");
@@ -20,8 +21,6 @@ export const CardCreate = ({ isOpen, closeModal }) => {
     e.preventDefault();
     const object = { name, model, brand, data };
 
-    console.log(object);
-
     await fetch(process.env.NEXT_PUBLIC_API_URL + `/product/`, {
       method: "POST",
       headers: {
@@ -32,9 +31,10 @@ export const CardCreate = ({ isOpen, closeModal }) => {
     })
       .then(() => {
         revalidate();
+        toast.success("Product created successfully!");
         closeModal();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error("Failed to create product!"));
     setName("");
     setModel("");
     setBrand("");
