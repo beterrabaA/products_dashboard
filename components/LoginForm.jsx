@@ -40,13 +40,14 @@ export const LoginForm = () => {
           <input
             type="email"
             name="email-input"
+            className="input-login"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            id=""
             required
             placeholder="Email"
           />
           <input
+            className="input-login"
             name="pass-input"
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
