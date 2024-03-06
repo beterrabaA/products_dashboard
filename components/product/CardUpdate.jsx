@@ -1,19 +1,27 @@
 "use client";
 
 import { Fragment, useState } from "react";
+
+import toast from "react-hot-toast";
 import { Dialog, Transition } from "@headlessui/react";
 
 import { BadgeMinus } from "lucide-react";
+import { revalidate, updateProduct } from "@/actions";
 
 export const CardUpdate = ({ isOpen, closeModal, product }) => {
   const [name, setName] = useState(product.name);
   const [model, setModel] = useState(product.model);
   const [brand, setBrand] = useState(product.brand);
   const [data, setData] = useState(product.data);
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    console.log({ name, model, brand, data });
-    closeModal();
+
+  const handleUpdate = async () => {
+    updateProduct(product.id, { name, model, brand, data })
+      .then(() => {
+        toast.success("Product updated successfully!");
+        revalidate();
+        closeModal();
+      })
+      .catch((error) => toast.error("Faild to update product"));
   };
 
   const handleAddVariant = () => {
@@ -58,11 +66,7 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
               >
                 <div className="bg-white shadow-lg p-5 rounded-lg border-t-4 border-green-400 w-full md:w-2/3 lg:w-auto">
                   <h1 className="text-start text-xl font-bold my-4">Update</h1>
-                  <form
-                    action=""
-                    onSubmit={handleUpdate}
-                    className="flex flex-col gap-3"
-                  >
+                  <form onSubmit={handleUpdate} className="flex flex-col gap-3">
                     <label
                       htmlFor=""
                       className="flex flex-col items-start pr-1"
