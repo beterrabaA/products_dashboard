@@ -6,10 +6,7 @@ export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
-      credentials: {
-        email: { label: "email", type: "email" },
-        token: { label: "token", type: "text" },
-      },
+      credentials: {},
       async authorize(credentials) {
         const { email, password } = credentials;
 
@@ -26,7 +23,7 @@ export const authOptions = {
           );
 
           const { token } = await response.json();
-          cookies().set("token", token);
+          // cookies().set("token", token);
           if (!token) return null;
           const user = { email, token };
 
