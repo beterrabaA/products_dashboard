@@ -9,7 +9,7 @@ export const ProductMinCard = ({ product, token }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async (id) => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + `/product/${id}`, {
+    fetch(process.env.NEXT_PUBLIC_API_URL + `/product/${product.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
