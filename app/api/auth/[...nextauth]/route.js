@@ -40,7 +40,7 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXT_PUBLIC_JWT_SECRET,
+  secret: process.env.NEXT_PUBLIC_SALT_WORD,
   pages: {
     signIn: "/",
   },
