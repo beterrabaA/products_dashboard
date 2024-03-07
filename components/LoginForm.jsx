@@ -29,18 +29,19 @@ export const LoginForm = () => {
 
       const data = await response.json();
 
-      if (data.token) {
-        await setCookie(data.token);
-        router.replace("dashboard");
+      if (!data.token) {
+        setError("Invalid credentials");
+        return;
       }
-      setError("Invalid credentials");
+      await setCookie(data.token);
+      router.replace("dashboard");
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <div className="grid place-items-center h-screen">
-      <div className="shadow-lg p-5 rounded-lg border-t-4 border-green-400">
+      <div className="shadow-lg p-5 rounded-lg border-t-4 border-green-400 w-full md:w-2/3 lg:w-auto">
         <h1 className="text-xl font-bold my-4">Login</h1>
         <form action="" onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
