@@ -1,3 +1,4 @@
+import { Dashboard } from "./Dashboard";
 import { EmptyList } from "./EmptyList";
 import { ProductCard } from "./ProductCard";
 import { ProductMinCard } from "./ProductMinCard";
@@ -34,11 +35,7 @@ export const ListProducts = ({ data, search, token }) => {
             </tr>
           </thead>
           {!isDataEmpty ? (
-            <tbody className="divide-y divide-gray-100">
-              {data?.map((product) => (
-                <ProductCard key={product.id} product={product} token={token} />
-              ))}
-            </tbody>
+            <Dashboard data={data} token={token} />
           ) : (
             <EmptyList />
           )}

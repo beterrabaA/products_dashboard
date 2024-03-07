@@ -1,23 +1,21 @@
 "use client";
 
-export const Dashboard = () => {
+import { ProductCard } from "./ProductCard";
+
+import { useSearchParams } from "next/navigation";
+
+export const Dashboard = ({ data, token }) => {
+  const params = useSearchParams();
+  const query = params.get("query");
+  let filteredData = data;
+  if (query) {
+    filteredData = data.filter((product) => product.name.includes(query));
+  }
   return (
-    <div className="grid place-items-center h-screen">
-      <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6">
-        <div>
-          Name: <span className="font-bold">Jhon</span>
-        </div>
-        <div>
-          Email: <span className="font-bold">jhonemail@email.com</span>
-        </div>
-        <button
-          className="bg-red-500 text-white font-bold px-6 py-2 mt-3"
-          onClick={() => signOut()}
-          type="button"
-        >
-          Logout
-        </button>
-      </div>
-    </div>
+    <tbody className="divide-y divide-gray-100">
+      {filteredData?.map((product) => (
+        <ProductCard key={product.id} product={product} token={token} />
+      ))}
+    </tbody>
   );
 };
