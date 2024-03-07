@@ -7,7 +7,7 @@ export const authOptions = {
     CredentialsProvider({
       name: "credentials",
       credentials: {},
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         console.log(credentials);
         const { email, password } = credentials;
 
@@ -23,11 +23,12 @@ export const authOptions = {
             }
           );
 
-          const { token } = await response.json();
-          // cookies().set("token", token);
-          if (!token) return null;
-          const user = { email, token };
+          // const { token } = await response.json();
+          // // cookies().set("token", token);
+          // if (!token) return null;
+          // const user = { email, token };
 
+          const user = { email, password };
           return user;
         } catch (error) {
           console.log("Error: ", error);
