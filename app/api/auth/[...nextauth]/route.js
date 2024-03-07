@@ -38,16 +38,7 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXT_PUBLIC_JTW_SECRET,
-  callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user };
-    },
-    async session(session, token, user) {
-      session.user = token;
-      return session;
-    },
-  },
+  secret: process.env.AUTH_SECRET,
   pages: {
     signIn: "/",
   },
