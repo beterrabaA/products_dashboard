@@ -1,14 +1,6 @@
 "use client";
 
-import { signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
-import { decode } from "next-auth/jwt";
-
 export const Dashboard = () => {
-  const { data: session } = useSession();
-  // const token = session?.token || "";
-
-  // console.log(token?.token);
   return (
     <div className="grid place-items-center h-screen">
       <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-6">

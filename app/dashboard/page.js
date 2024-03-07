@@ -14,5 +14,5 @@ export default async function DashboardPage({ searchParams }) {
     cache: "no-store",
   }).catch((err) => console.log(err));
   const data = (await products?.json()) || [];
-  return <ListProducts data={data} search={searchParams.query} />;
+  return <ListProducts data={data} search={searchParams.query} token={teste} />;
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CardCreate } from "./CardCreate";
 
-export const NewProduct = () => {
+export const NewProduct = ({ token }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="flex flex-col md:flex-row w-max-[150px] justify-between">
@@ -14,7 +14,11 @@ export const NewProduct = () => {
       >
         New product
       </button>
-      <CardCreate isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+      <CardCreate
+        isOpen={isOpen}
+        closeModal={() => setIsOpen(false)}
+        token={token}
+      />
     </div>
   );
 };

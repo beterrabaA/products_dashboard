@@ -1,13 +1,15 @@
 import { RegisterForm } from "@/components/RegisterForm";
+import { cookies } from "next/headers";
 
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function Register() {
-  const session = await getServerSession(authOptions);
+  const cookiesStore = cookies();
+  const token = cookiesStore.get("token");
 
-  if (session) redirect("/dashboard");
+  const teste = token?.value || "";
+
+  if (teste) redirect("/dashboard");
 
   return <RegisterForm />;
 }

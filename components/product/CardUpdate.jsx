@@ -2,20 +2,16 @@
 
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useSession } from "next-auth/react";
 
 import { BadgeMinus } from "lucide-react";
 import { revalidate } from "@/actions";
 import toast from "react-hot-toast";
 
-export const CardUpdate = ({ isOpen, closeModal, product }) => {
+export const CardUpdate = ({ isOpen, closeModal, product, token }) => {
   const [name, setName] = useState(product.name);
   const [model, setModel] = useState(product.model);
   const [brand, setBrand] = useState(product.brand);
   const [data, setData] = useState(product.data);
-
-  const { data: session } = useSession();
-  const token = session?.token || "";
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -26,7 +22,7 @@ export const CardUpdate = ({ isOpen, closeModal, product }) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token.token,
+        Authorization: token,
       },
       body: JSON.stringify(object),
     })

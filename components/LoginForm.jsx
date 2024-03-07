@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { setCookie } from "@/actions";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -16,16 +16,20 @@ export const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + "/user/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password, name }),
+        }
+      );
 
-      if (res.error) {
-        setError("Invalid Credentials");
-        return;
-      }
+      const data = await response.json();
+      await setCookie(data.token, email);
+      console.log(data);
 
       router.replace("dashboard");
     } catch (error) {

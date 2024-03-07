@@ -4,12 +4,8 @@ import { ProductMinCard } from "./ProductMinCard";
 import { Search } from "./Search";
 import { NewProduct } from "./product/NewProduct";
 
-export const ListProducts = ({ data, search }) => {
-  const query = search || "";
-  const datac = data || [];
-
-  const filteredData =
-    datac.filter((product) => product.name.includes(query)) || [];
+export const ListProducts = ({ data, search, token }) => {
+  const isDataEmpty = !Array.isArray(data) || data.length < 1 || !data;
   return (
     <div className="p-5 h-screen bg-gray-100">
       <div className="flex flex-col md:flex-row justify-between">
@@ -37,20 +33,27 @@ export const ListProducts = ({ data, search }) => {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
-            {filteredData?.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </tbody>
+          {!isDataEmpty ? (
+            <tbody className="divide-y divide-gray-100">
+              {data?.map((product) => (
+                <ProductCard key={product.id} product={product} token={token} />
+              ))}
+            </tbody>
+          ) : (
+            <EmptyList />
+          )}
         </table>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
-        {data?.map((product) => (
-          <ProductMinCard key={product.id} product={product} />
-        ))}
-      </div>
-      {!filteredData.length && <EmptyList />}
-      <NewProduct />
+      {!isDataEmpty ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
+          {data?.map((product) => (
+            <ProductMinCard key={product.id} product={product} token={token} />
+          ))}
+        </div>
+      ) : (
+        <EmptyList />
+      )}
+      <NewProduct token={token} />
     </div>
   );
 };

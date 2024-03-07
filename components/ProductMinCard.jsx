@@ -1,23 +1,19 @@
 "use client";
 
-import { revalidate } from "@/actions";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { revalidate } from "@/actions";
 import { CardUpdate } from "./product/CardUpdate";
 
-export const ProductMinCard = ({ product }) => {
+export const ProductMinCard = ({ product, token }) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const { data: session } = useSession();
-  const token = session?.token || "";
 
   const handleDelete = async (id) => {
     fetch(process.env.NEXT_PUBLIC_API_URL + `/product/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token.token,
+        Authorization: token,
       },
     })
       .then(() => {
@@ -70,6 +66,7 @@ export const ProductMinCard = ({ product }) => {
         isOpen={isOpen}
         closeModal={() => setIsOpen(false)}
         product={product}
+        token={token}
       />
     </div>
   );
