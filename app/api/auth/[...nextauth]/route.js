@@ -1,5 +1,6 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { cookies } from "next/headers";
 
 export const authOptions = {
   providers: [
@@ -22,6 +23,7 @@ export const authOptions = {
           );
 
           const { token } = await response.json();
+          cookies().set("token", token);
           if (!token) return null;
           const user = { email };
 

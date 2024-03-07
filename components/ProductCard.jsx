@@ -13,7 +13,7 @@ export const ProductCard = ({ product }) => {
   const token = session?.token || "";
 
   const handleDelete = async (id) => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + `/product/${id}`, {
+    fetch(process.env.NEXT_PUBLIC_API_URL + `/product/${product.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

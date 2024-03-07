@@ -6,8 +6,10 @@ import { NewProduct } from "./product/NewProduct";
 
 export const ListProducts = ({ data, search }) => {
   const query = search || "";
+  const datac = data || [];
 
-  const filteredData = data?.filter((product) => product.name.includes(query));
+  const filteredData =
+    datac.filter((product) => product.name.includes(query)) || [];
   return (
     <div className="p-5 h-screen bg-gray-100">
       <div className="flex flex-col md:flex-row justify-between">
