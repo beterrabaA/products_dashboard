@@ -28,10 +28,12 @@ export const LoginForm = () => {
       );
 
       const data = await response.json();
-      await setCookie(data.token, email);
-      console.log(data);
 
-      router.replace("dashboard");
+      if (data.token) {
+        await setCookie(data.token);
+        router.replace("dashboard");
+      }
+      setError("Invalid credentials");
     } catch (error) {
       console.log(error);
     }

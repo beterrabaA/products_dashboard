@@ -6,8 +6,7 @@ import { useRouter } from "next/navigation";
 export const Navbar = () => {
   const router = useRouter();
   const signOut = () => {
-    router.back();
-    removeCookie();
+    removeCookie().then(() => router.refresh());
   };
   return (
     <div className="flex flex-col md:flex-row w-max-[150px] justify-end items-center bg-gray-100 font-bold">
